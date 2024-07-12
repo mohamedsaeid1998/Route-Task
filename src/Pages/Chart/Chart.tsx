@@ -30,8 +30,8 @@ const Chart = () => {
 
   return <>
     <main className="h-screen  bg-gradient-to-tr from-slate-600 via-slate-700 to-slate-800 flex flex-col space-y-10 items-center justify-center">
-      <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-        {state.name} Transactions
+      <h2 className="text-2xl font-bold text-white md:text-3xl lg:text-4xl">
+        {state?.name} Transactions
       </h2>
       <div className='  flex items-center justify-center w-full md:w-4/6 bg-white rounded-lg'>
         <ResponsiveContainer width="99%" height={400}>

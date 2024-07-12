@@ -85,16 +85,16 @@ const Table = () => {
           Customer transactions
         </h1>
 
-        <div className="flex justify-between space-x-4 [&_input]:flex [&_input]:flex-col [&_input]:sm:flex-row [&_input]:items-center [&_input]:mt-2 [&_input]:py-1 [&_input]:pl-3 [&_input]:border-2 [&_input]:border-white [&_input]:rounded-md [&_input]:outline-none">
+        <div className="flex flex-col md:flex-row justify-center px-4 space-x-0 w-full md:space-x-4 [&_input]:mt-2 [&_input]:py-1 [&_input]:pl-3 [&_input]:border-2 [&_input]:border-white [&_input]:rounded-md [&_input]:outline-none">
           <input className=" focus-within:border-green-500 focus-within: focus-within:ring-1 focus-within:ring-green-500"
             type="search" onChange={handleSearchByName} value={customerName} placeholder=" Search By Name..." />
           <input className=" focus-within:border-green-500 focus-within: focus-within:ring-1 focus-within:ring-green-500"
             type="number" onChange={handleSearchByAmount} value={customerAmount} placeholder=" Search By Amount..." />
         </div>
-        <div className="mx-3 overflow-hidden rounded-lg shadow-lg md:mx-4">
+        <div className=" overflow-hidden rounded-lg shadow-lg mx-4 ">
           <table className="w-full table-fixed">
             <thead>
-              <tr className="bg-gray-100 [&_th]:uppercase [&_th]:w-1/4 [&_th]:px-6 [&_th]:py-4 [&_th]:font-bold [&_th]:text-left [&_th]:text-gray-600">
+              <tr className="bg-gray-100  [&_th]:text-sm [&_th]:sm:text-lg [&_th]:uppercase [&_th]:w-1/4 [&_th]:px-4  [&_th]:py-4 [&_th]:font-bold [&_th]:text-center [&_th]:text-gray-600">
                 <th >Id </th>
                 <th >Name </th>
                 <th className="hidden" >transactions Count </th>
@@ -108,7 +108,7 @@ const Table = () => {
               <AnimatePresence initial={false} >
                 {filteredCustomers?.map(
                   ({ id, name, totalAmount, transactionsCount }: ICustomersDetails, index: number) => (
-                    <motion.tr key={id} className="[&_td]:px-6 [&_td]:py-4 [&_td]:border-b-2 [&_td]:border-gray-200"
+                    <motion.tr key={id} className="[&_td]:text-sm  [&_td]:sm:text-lg  [&_td]:px-4 [&_td]:py-4 [&_td]:border-b-2 [&_td]:text-center [&_td]:border-gray-200"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}

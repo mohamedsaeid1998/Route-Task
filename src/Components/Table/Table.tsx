@@ -31,7 +31,6 @@ const Table = () => {
         const customerTransactions = transactions?.filter((transaction: ICustomersTransactionsData) =>
           transaction?.customer_id == customer?.id
         );
-        console.log(customerTransactions);
 
         const transactionsCount = customerTransactions.length;
 

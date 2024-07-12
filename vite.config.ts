@@ -10,5 +10,5 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-  // base: /Route-Task/
+  base: /Route-Task/
 });

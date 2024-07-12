@@ -2,7 +2,7 @@
 import { CustomersContext } from "@/Context/CustomersContext";
 import { ICustomersData, ICustomersDetails, ICustomersTransactionsData } from "@/InterFaces";
 import { AnimatePresence, motion } from "framer-motion";
-import { BarChart4 } from "lucide-react";
+import { BarChart4, Loader } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const Table = () => {
@@ -12,6 +12,7 @@ const Table = () => {
   const [filteredCustomers, setFilteredCustomers] = useState<(ICustomersDetails)[]>([]);
   const [customerName, setCustomerName] = useState<string>("");
   const [customerAmount, setCustomerAmount] = useState<number>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // @ts-ignore
   let { customersData, customersTransactionsData } = useContext(CustomersContext);
 
@@ -20,11 +21,13 @@ const Table = () => {
   }, []);
 
   const customersDetails = async () => {
-
+    setIsLoading(true)
     const [customers, transactions] = await Promise.all([
+
       customersData(),
       customersTransactionsData(),
-    ]);
+
+    ]).finally(() => setIsLoading(false));
 
     if (customers && transactions) {
       const customersWithTransactions = customers?.map((customer: ICustomersData) => {
@@ -42,7 +45,7 @@ const Table = () => {
       setCustomersTableDetails(customersWithTransactions);
       setFilteredCustomers(customersWithTransactions);
     }
-  };
+  }
 
 
   const handleSearchByName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +93,7 @@ const Table = () => {
           <input className=" focus-within:border-green-500 focus-within: focus-within:ring-1 focus-within:ring-green-500"
             type="number" onChange={handleSearchByAmount} value={customerAmount} placeholder=" Search By Amount..." />
         </div>
-        <div className=" overflow-hidden rounded-lg shadow-lg mx-4 ">
+        <div className="  rounded-lg shadow-lg mx-4 w-full ">
           <table className="w-full table-fixed">
             <thead>
               <tr className="bg-gray-100  [&_th]:text-sm [&_th]:sm:text-lg [&_th]:uppercase [&_th]:w-1/4 [&_th]:px-4  [&_th]:py-4 [&_th]:font-bold [&_th]:text-center [&_th]:text-gray-600">
@@ -102,27 +105,29 @@ const Table = () => {
               </tr>
             </thead>
 
-            <tbody className="bg-white">
 
-              <AnimatePresence initial={false} >
-                {filteredCustomers?.map(
-                  ({ id, name, totalAmount, transactionsCount }: ICustomersDetails, index: number) => (
-                    <motion.tr key={id} className="[&_td]:text-sm  [&_td]:sm:text-lg  [&_td]:px-4 [&_td]:py-4 [&_td]:border-b-2 [&_td]:text-center [&_td]:border-gray-200"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ layout: { type: "spring" } }}
-                      layout>
-                      <td>{index + 1}</td>
-                      <td>{name} </td>
-                      <td className="hidden">{transactionsCount} </td>
-                      <td>{totalAmount} </td>
-                      <td><button onClick={() => handelCustomerTransactions({ id, name })}><BarChart4 className="size-6 shrink-0 text-green-600" /> </button></td>
-                    </motion.tr>
-                  )
-                )}
-              </AnimatePresence>
+            <tbody className="bg-white w-full ">
+              {isLoading ? <div className="bg-white w-[400%] h-80 flex items-center justify-center"><Loader className=" text-slate-700 animate-spin size-40" /></div> :
+                <AnimatePresence initial={false} >
+                  {filteredCustomers?.map(
+                    ({ id, name, totalAmount, transactionsCount }: ICustomersDetails, index: number) => (
+                      <motion.tr key={id} className="[&_td]:text-sm  [&_td]:sm:text-lg  [&_td]:px-4 [&_td]:py-4 [&_td]:border-b-2 [&_td]:text-center [&_td]:border-gray-200"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ layout: { type: "spring" } }}
+                        layout>
+                        <td>{index + 1}</td>
+                        <td>{name} </td>
+                        <td className="hidden">{transactionsCount} </td>
+                        <td>{totalAmount} </td>
+                        <td><button onClick={() => handelCustomerTransactions({ id, name })}><BarChart4 className="size-6 shrink-0 text-green-600" /> </button></td>
+                      </motion.tr>
+                    )
+                  )}
+                </AnimatePresence>
 
+              }
             </tbody>
           </table>
         </div>

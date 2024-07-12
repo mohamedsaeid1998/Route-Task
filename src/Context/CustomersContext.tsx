@@ -1,4 +1,4 @@
-import { ICustomersData, ICustomersTransactionsData } from "@/InterFaces";
+import { ICustomersData, ICustomersResponse, ICustomersTransactionsData } from "@/InterFaces";
 import axios from "axios";
 import { createContext, ReactNode } from "react";
 
@@ -16,8 +16,9 @@ const CustomersContextProvider = ({ children }: { children: ReactNode }) => {
 
   const customersData = async (): Promise<ICustomersData[]> => {
     try {
-      const response = await axios.get<ICustomersData[]>(`http://localhost:3000/customers`)
-      return response?.data
+      
+      const response = await axios.get<ICustomersResponse>(`https://cdn.dipdux.dev/json/00d0d514-e29f-458b-806a-06c4e789377ddb.json`)
+      return response?.data?.customers 
 
     } catch (error) {
       console.log(error);
@@ -27,8 +28,9 @@ const CustomersContextProvider = ({ children }: { children: ReactNode }) => {
 
   const customersTransactionsData = async (): Promise<ICustomersTransactionsData[]> => {
     try {
-      const response = await axios.get<ICustomersTransactionsData[]>(`http://localhost:3000/transactions`)
-      return response?.data
+
+      const response = await axios.get<ICustomersResponse>(`https://cdn.dipdux.dev/json/00d0d514-e29f-458b-806a-06c4e789377ddb.json`)
+      return response?.data?.transactions
 
     } catch (error) {
       console.log(error);
